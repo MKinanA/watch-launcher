@@ -5,7 +5,10 @@ String addZeros(int? number, [int minLength = 2]) => number != null ? '${'0' * (
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+  SystemChrome.setEnabledSystemUIMode(
+    SystemUiMode.manual,
+    overlays: [],
+  );
   runApp(const MainApp());
 }
 
