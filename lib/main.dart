@@ -34,6 +34,32 @@ class WholeThing extends StatefulWidget {
   });
 
   @override
+  State<WholeThing> createState() => _WholeThingState();
+}
+
+class _WholeThingState extends State<WholeThing> {
+  late final PageController horizontalPageController;
+  late final PageController verticalPageController;
+
+  @override
+  void initState() {
+    super.initState();
+    horizontalPageController = PageController(
+      initialPage: 1,
+    );
+    verticalPageController = PageController(
+      initialPage: 1,
+    );
+  }
+
+  @override
+  void dispose() {
+    verticalPageController.dispose();
+    horizontalPageController.dispose();
+    super.dispose();
+  }
+  
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
@@ -50,7 +76,12 @@ class WholeThing extends StatefulWidget {
               ],
             ),
           ),
-          HorizontalPageView()
+          SizedBox(),
+          HorizontalPageView(
+            wholeThingSetState: setState,
+            horizontalPageController: horizontalPageController,
+            verticalPageController: verticalPageController,
+          )
         ],
       ),
     );
@@ -58,7 +89,14 @@ class WholeThing extends StatefulWidget {
 }
 
 class HorizontalPageView extends StatefulWidget {
+  final Function wholeThingSetState;
+  final PageController horizontalPageController;
+  final PageController verticalPageController;
+
   const HorizontalPageView({
+    required this.wholeThingSetState,
+    required this.horizontalPageController,
+    required this.verticalPageController,
     super.key,
   });
 
@@ -67,46 +105,26 @@ class HorizontalPageView extends StatefulWidget {
 }
 
 class _HorizontalPageViewState extends State<HorizontalPageView> {
-  late final PageController pageController;
-  late final PageController childPageController;
-
-  @override
-  void initState() {
-    super.initState();
-    pageController = PageController(
-      initialPage: 1,
-    );
-    childPageController = PageController(
-      initialPage: 1,
-    );
-  }
-
-  @override
-  void dispose() {
-    childPageController.dispose();
-    pageController.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return PageView(
       physics: ((){
         try {
-          return childPageController.page?.round() ?? 1;
+          return widget.verticalPageController.page?.round() ?? 1;
         } catch (e) {
           return 1;
         }
       })() != 1 ? const NeverScrollableScrollPhysics() : const PageScrollPhysics(),
-      controller: pageController,
+      controller: widget.horizontalPageController,
       scrollDirection: Axis.horizontal,
       children: [
         Container(
           color: Colors/*.fromRGBO(15, 15, 15, 1)*/.red,
         ),
         VerticalPageView(
-          pageController: childPageController,
-          parentSetState: setState,
+          wholeThingSetState: widget.wholeThingSetState,
+          verticalPageController: widget.verticalPageController,
+          horizontalSetState: setState,
         ),
         Container(
           color: Colors/*.fromRGBO(15, 15, 15, 1)*/.green,
@@ -117,12 +135,14 @@ class _HorizontalPageViewState extends State<HorizontalPageView> {
 }
 
 class VerticalPageView extends StatefulWidget {
-  final PageController pageController;
-  final Function parentSetState;
+  final Function wholeThingSetState;
+  final PageController verticalPageController;
+  final Function horizontalSetState;
 
   const VerticalPageView({
-    required this.pageController,
-    required this.parentSetState,
+    required this.wholeThingSetState,
+    required this.verticalPageController,
+    required this.horizontalSetState,
     super.key,
   });
 
@@ -136,10 +156,10 @@ class _VerticalPageViewState extends State<VerticalPageView> {
     return PageView(
       onPageChanged: (i){
         try {
-          widget.parentSetState((){});
+          widget.horizontalSetState((){});
         } finally {}
       },
-      controller: widget.pageController,
+      controller: widget.verticalPageController,
       scrollDirection: Axis.vertical,
       children: [
         Container(
