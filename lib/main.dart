@@ -28,7 +28,7 @@ class MainApp extends StatelessWidget {
   }
 }
 
-class WholeThing extends StatelessWidget {
+class WholeThing extends StatefulWidget {
   const WholeThing({
     super.key,
   });
