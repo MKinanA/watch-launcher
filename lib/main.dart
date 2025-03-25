@@ -175,8 +175,8 @@ class ClockFace extends StatelessWidget {
               '${addZeros(snapshot.data?.hour)}:${addZeros(snapshot.data?.minute)}',
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 80.0,
-                fontWeight: FontWeight.w900,
+                fontSize: 96.0,
+                fontWeight: FontWeight.w700,
                 height: 1.0,
                 color: Colors.white,
               ),
@@ -197,8 +197,8 @@ class ClockFace extends StatelessWidget {
               ][snapshot.data?.weekday ?? 0]} ${addZeros(snapshot.data?.day)}/${addZeros(snapshot.data?.month)}/${addZeros(snapshot.data?.year, 4)}',
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 24.0,
-                fontWeight: FontWeight.w700,
+                fontSize: 32.0,
+                fontWeight: FontWeight.w500,
                 height: 1.0,
                 color: Colors.white,
               ),
