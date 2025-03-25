@@ -107,7 +107,7 @@ class _HorizontalPageViewState extends State<HorizontalPageView> {
   @override
   Widget build(BuildContext context) {
     return PageView(
-      physics: ((){
+      physics: (() {
         try {
           return widget.verticalPageController.page?.round() ?? 1;
         } catch (e) {
@@ -153,11 +153,12 @@ class _VerticalPageViewState extends State<VerticalPageView> {
   @override
   Widget build(BuildContext context) {
     return PageView(
-      onPageChanged: (i){
+      onPageChanged: (i) {
         try {
-          widget.horizontalSetState((){});
+          widget.horizontalSetState(() {});
         } finally {}
       },
+      physics: const PageScrollPhysics(),
       controller: widget.verticalPageController,
       scrollDirection: Axis.vertical,
       children: [
