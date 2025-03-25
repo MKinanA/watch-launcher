@@ -165,7 +165,6 @@ class _VerticalPageViewState extends State<VerticalPageView> {
         Container(
           color: Colors/*.fromRGBO(15, 15, 15, 1)*/.yellow,
         ),
-        SizedBox(),
         Container(
           color: Colors/*.fromRGBO(15, 15, 15, 1)*/.blue,
         ),
